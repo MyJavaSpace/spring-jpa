@@ -1,0 +1,15 @@
+ spring:
+   datasource:
+     driver-class-name: com.mysql.jdbc.Driver
+     url: jdbc:mysql://10.88.3.101:3306/winpos
+     password: 123456
+     username: root
+   jpa:
+     show-sql: true
+     hibernate:
+       ddl-auto: update
+       naming:
+         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+ management:
+   security:
+     enabled: false
