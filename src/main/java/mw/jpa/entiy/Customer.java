@@ -1,6 +1,7 @@
 package mw.jpa.entiy;
 
 import lombok.Data;
+import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Data
 public class Customer {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
     private String firstname;

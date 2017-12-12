@@ -1,15 +1,44 @@
- spring:
-   datasource:
-     driver-class-name: com.mysql.jdbc.Driver
-     url: jdbc:mysql://10.88.3.101:3306/winpos
-     password: 123456
-     username: root
-   jpa:
+druid:
+  type: com.alibaba.druid.pool.DruidDataSource
+  winpos:
+    master: #winpos主库
+      url: ${jdbc.master}
+      driver-class-name: com.mysql.jdbc.Driver
+      username: ${jdbc.username}
+      password: ${jdbc.password}
+      initial-size: ${jdbc.initSize}
+      min-idle: ${jdbc.minIdle}
+      max-active: ${jdbc.maxActive}
+      test-on-borrow: ${jdbc.testOnBorrow}
+    slave: #winpos从库
+      url: ${jdbc.slave}
+      driver-class-name: com.mysql.jdbc.Driver
+      username: ${jdbc.username}
+      password: ${jdbc.password}
+      initial-size: ${jdbc.initSize}
+      min-idle: ${jdbc.minIdle}
+      max-active: ${jdbc.maxActive}
+      test-on-borrow: ${jdbc.testOnBorrow}
+
+jdbc:
+  master: jdbc:mysql://10.0.19.6:30291/winpos?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&allowMultiQueries=true&useLocalSessionState=true&autoReconnect=true&failOverReadOnly=false&noAccessToProcedureBodies=true&useTimezone=true&serverTimezone=Hongkong
+  slave: jdbc:mysql://10.0.19.5:30291/winpos?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&allowMultiQueries=true&useLocalSessionState=true&autoReconnect=true&failOverReadOnly=false&noAccessToProcedureBodies=true&useTimezone=true&serverTimezone=Hongkong
+  username: devuser2
+  password: t
+  testOnBorrow: true
+  initSize: 5
+  minIdle: 1
+  maxActive: 20
+
+
+management:
+   security:
+     enabled: false
+
+spring:
+  jpa:
      show-sql: true
      hibernate:
        ddl-auto: update
        naming:
          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
- management:
-   security:
-     enabled: false
