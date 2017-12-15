@@ -41,7 +41,7 @@ public class MyInterceptor extends EmptyInterceptor {
             org.hibernate.type.Type[] types) {
 //        DynamicDataSourceGlobal dynamicDataSourceGlobal = DynamicDataSourceGlobal.WRITE;
 //        DynamicDataSourceHolder.putDataSource(dynamicDataSourceGlobal);
-        System.out.println("onDelete");
+//        System.out.println("onDelete");
     }
 
     // This method is called when Employee object gets updated.
@@ -55,7 +55,7 @@ public class MyInterceptor extends EmptyInterceptor {
             org.hibernate.type.Type[] types) {
 //        DynamicDataSourceGlobal dynamicDataSourceGlobal = DynamicDataSourceGlobal.WRITE;
 //        DynamicDataSourceHolder.putDataSource(dynamicDataSourceGlobal);
-        System.out.println("onFlushDirty");
+//        System.out.println("onFlushDirty");
         return false;
     }
     @Override
@@ -65,7 +65,7 @@ public class MyInterceptor extends EmptyInterceptor {
             Object[] state,
             String[] propertyNames,
             org.hibernate.type.Type[] types) {
-        System.out.println("onLoad");
+//        System.out.println("onLoad");
         return false;
     }
 
@@ -77,7 +77,7 @@ public class MyInterceptor extends EmptyInterceptor {
             Object[] state,
             String[] propertyNames,
             org.hibernate.type.Type[] types) {
-        System.out.println("onSave");
+//        System.out.println("onSave");
 //        DynamicDataSourceGlobal dynamicDataSourceGlobal = DynamicDataSourceGlobal.WRITE;
 //        DynamicDataSourceHolder.putDataSource(dynamicDataSourceGlobal);
         return false;
@@ -87,13 +87,13 @@ public class MyInterceptor extends EmptyInterceptor {
     //called before commit into database
     @Override
     public void preFlush(Iterator iterator) {
-        System.out.println("preFlush");
+//        System.out.println("preFlush");
     }
 
     //called after committed into database
     @Override
     public void postFlush(Iterator iterator) {
-        DynamicDataSourceHolder.clearDataSource();
-        System.out.println("postFlush");
+//        DynamicDataSourceHolder.clearDataSource();
+//        System.out.println("postFlush");
     }
 }

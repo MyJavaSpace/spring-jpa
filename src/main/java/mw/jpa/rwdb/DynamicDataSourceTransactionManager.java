@@ -1,6 +1,7 @@
 package mw.jpa.rwdb;
 
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 
 /**
@@ -9,7 +10,8 @@ import org.springframework.transaction.TransactionDefinition;
  * Date: 2016-08-10 14:34
  * Desc:
  */
-public class DynamicDataSourceTransactionManager extends DataSourceTransactionManager {
+public class DynamicDataSourceTransactionManager extends JpaTransactionManager
+        {
 
     /**
      * 只读事务到读库，读写事务到写库
@@ -18,13 +20,14 @@ public class DynamicDataSourceTransactionManager extends DataSourceTransactionMa
      */
     @Override
     protected void doBegin(Object transaction, TransactionDefinition definition) {
-
         //设置数据源
         boolean readOnly = definition.isReadOnly();
         if(readOnly) {
+            logger.info("doBegin"+DynamicDataSourceGlobal.READ.name());
             DynamicDataSourceHolder.putDataSource(DynamicDataSourceGlobal.READ);
         } else {
             DynamicDataSourceHolder.putDataSource(DynamicDataSourceGlobal.WRITE);
+            logger.info("doBegin"+DynamicDataSourceGlobal.WRITE.name());
         }
         super.doBegin(transaction, definition);
     }

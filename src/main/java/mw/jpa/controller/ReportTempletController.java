@@ -2,13 +2,13 @@ package mw.jpa.controller;
 
 import mw.jpa.dto.CustomerExcerpt;
 import mw.jpa.dto.ReporttempletextSummary;
-import mw.jpa.entiy.Customer;
-import mw.jpa.entiy.ReportTemplet;
-import mw.jpa.entiy.Reporttempletext;
+import mw.jpa.entiy.*;
 import mw.jpa.repository.CustomerRepository;
 import mw.jpa.rwdb.DynamicDataSourceGlobal;
 import mw.jpa.rwdb.DynamicDataSourceHolder;
 import mw.jpa.service.ReportTempletService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +26,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/reporttemplet")
 public class ReportTempletController {
+    private Logger log = LoggerFactory.getLogger(ReportTempletController.class);
 
     @Autowired private ReportTempletService reportTempletService;
+    @Autowired
+    private UserOuterService userOuterService;
+
     @GetMapping("all")
     public List<ReportTemplet> getAll(){
         return  reportTempletService.selectAll();
@@ -68,5 +72,19 @@ public class ReportTempletController {
         customer.setLastname("jiongsi");
         return customerRepository.save(customer);
     }
+    @GetMapping("test")
+    public void saveWrite() throws Exception {
+        User newUserFromRead = userOuterService.findByIdRead(1);
+        User newUser = new User();
+        newUser.setName("New User");
 
+        userOuterService.save(newUser);
+        log.info("User saved : {}", newUser);
+
+        newUserFromRead = userOuterService.findByIdRead(newUser.getId());
+//        assertThat(newUserFromRead).as("New user is saved to write db. So read db must not have the user.").isNull();
+
+        User newUserFromWrite = userOuterService.findByIdWrite(newUser.getId());
+//        assertThat(newUserFromWrite).as("New user is saved to write db. So write db must have the user.").isNotNull().isEqualTo(newUser);
+    }
 }
